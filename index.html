@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rock Paper Scissor</title>
+    <link rel="stylesheet" type="text/css" href="./src/assets/application.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <header>
+        <div>Current mode:&nbsp;</div>
+        <div>
+            <select name="mode">
+                <option value="1">Player vs Computer</option>
+                <option value="2">Computer vs Computer</option>
+            </select>
+        </div>
+    </header>
+    <section class="bg-gray" id="playerOne">
+        <div class="container__title container__title--pull-left">
+            Player 1
+        </div>
+        <div class="container__body" id="playerOneHands">
+            <div class="container-body__shapes">
+            </div>
+        </div>
+    </section>
+    <section id="playerTwo">
+        <div class="container__body">
+            <i class="fas fa-question btn"></i>
+        </div>
+        <div class="container__title container__title--pull-right">
+            Player 2
+        </div>
+    </section>
+    <div class="resolution-wrapper" id="resolution"></div>
+    <script src="./dist/main.js"></script>
+</body>
+
+</html>
