@@ -1,7 +1,8 @@
-import { Game } from './game';
-import { Hand } from '../hand';
+const Game = require('./game');
+const Hand = require('../hand');
 
-export class Classic extends Game {
+// Classic game defines the rules of Rock, Paper, Scissors game
+class Classic extends Game {
     constructor() {
         const rock = new Hand('rock', 'far fa-hand-rock');
         const paper = new Hand('paper', 'far fa-hand-paper');
@@ -10,3 +11,5 @@ export class Classic extends Game {
         super([rock, paper, scissors], rules);
     }
 }
+
+module.exports = Classic;

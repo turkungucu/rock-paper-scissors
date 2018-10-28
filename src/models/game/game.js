@@ -1,6 +1,6 @@
 // Concrete Game object
 // Holds available choices and rules
-export class Game {
+class Game {
     constructor(hands, rules) {
         this.hands = hands;
         this.rules = rules;
@@ -25,3 +25,5 @@ export class Game {
         }
     }
 }
+
+module.exports = Game;

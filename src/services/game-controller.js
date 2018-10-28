@@ -1,9 +1,9 @@
-export const MODE = {
+const MODE = {
     PlayerVsComputer: 1,
     ComputerVsComputer: 2,
 }
 
-export class GameController {
+class GameController {
     constructor(game) {
         this.game = game;
         this.mode = MODE.PlayerVsComputer;
@@ -35,59 +35,56 @@ export class GameController {
         this.resolutionActions.innerHTML = '';
     }
 
-    replaceInner(parent, child) {
-        parent.innerHTML = '';
-        parent.appendChild(child);
-    }
-
     initPlayerVsComputer() {
-        const ctrl = this;
+        this.playerTwoSection.appendChild(this.createAvatarElForHand());
 
-        this.playerTwoSection.appendChild(this.createElementForHand());
-
+        // For each hand, create an avatar and bind click event
         this.game.hands.forEach(hand => {
-            const iEl = this.createElementForHand(hand);
+            const iEl = this.createAvatarElForHand(hand);
             this.playerOneSection.appendChild(iEl);
             iEl.classList.add('clickable');
 
-            iEl.addEventListener('click', function () {
-                const playerOneHand = ctrl.game.getHandByShape(this.dataset.hand);
-                const playerTwoHand = ctrl.game.playComputer();
-                const playerTwoHandIcon = ctrl.createElementForHand(playerTwoHand);
-                const res = ctrl.game.compare(playerOneHand, playerTwoHand);
-
-                ctrl.replaceInner(ctrl.playerTwoSection, playerTwoHandIcon);
-                ctrl.handleResolution(res);
-                ctrl.resolutionActions.innerText = 'Choose a hand to keep playing';
-            });
+            iEl.addEventListener('click', this.clickHandlerForPlayerVsComputer.bind(this));
         });
     }
 
+    clickHandlerForPlayerVsComputer(event) {
+        const playerOneHand = this.game.getHandByShape(event.target.dataset.hand);
+        const playerTwoHand = this.game.playComputer();
+        const playerTwoHandIcon = this.createAvatarElForHand(playerTwoHand);
+        const res = this.game.compare(playerOneHand, playerTwoHand);
+
+        this.replaceInner(this.playerTwoSection, playerTwoHandIcon);
+        this.handleResolution(res);
+        this.resolutionActions.innerText = 'Choose a hand to keep playing';
+    }
+
     initComputerVsComputer() {
-        const ctrl = this;
-        const iEl = this.createElementForHand();
+        const iEl = this.createAvatarElForHand();
 
         this.playerOneSection.appendChild(iEl);
         this.playerTwoSection.appendChild(iEl.cloneNode());
 
         let button = document.createElement('button');
-        button.innerText = 'Play';
+        button.innerHTML = '<i class="fas fa-redo-alt"></i>';
         this.resolutionActions.appendChild(button);
 
-        button.addEventListener('click', function () {
-            const playerOneHand = ctrl.game.playComputer();
-            const playerTwoHand = ctrl.game.playComputer();
-            const playerOneHandIcon = ctrl.createElementForHand(playerOneHand);
-            const playerTwoHandIcon = ctrl.createElementForHand(playerTwoHand);
-            const res = ctrl.game.compare(playerOneHand, playerTwoHand);
-
-            ctrl.replaceInner(ctrl.playerOneSection, playerOneHandIcon);
-            ctrl.replaceInner(ctrl.playerTwoSection, playerTwoHandIcon);
-            ctrl.handleResolution(res);
-        });
+        button.addEventListener('click', this.clickHandlerForComputerVsComputer.bind(this));
     }
 
-    createElementForHand(hand) {
+    clickHandlerForComputerVsComputer() {
+        const playerOneHand = this.game.playComputer();
+        const playerTwoHand = this.game.playComputer();
+        const playerOneHandIcon = this.createAvatarElForHand(playerOneHand);
+        const playerTwoHandIcon = this.createAvatarElForHand(playerTwoHand);
+        const res = this.game.compare(playerOneHand, playerTwoHand);
+
+        this.replaceInner(this.playerOneSection, playerOneHandIcon);
+        this.replaceInner(this.playerTwoSection, playerTwoHandIcon);
+        this.handleResolution(res);
+    }
+
+    createAvatarElForHand(hand) {
         let i = document.createElement('i');
 
         if (hand) {
@@ -115,6 +112,16 @@ export class GameController {
                 break;
         }
 
-        document.querySelector('.resolution__msg').innerText = resolutionMsg;
+        this.resolutionMsg.innerText = resolutionMsg;
     }
+
+    replaceInner(parent, child) {
+        parent.innerHTML = '';
+        parent.appendChild(child);
+    }
+}
+
+module.exports = {
+    MODE: MODE,
+    GameController: GameController,
 }

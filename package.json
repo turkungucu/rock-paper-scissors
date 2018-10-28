@@ -4,11 +4,12 @@
   "description": "Client-side Rock, Paper, Scissors game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "author": "turkungucu",
   "license": "MIT",
   "devDependencies": {
+    "jasmine": "^3.3.0",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2"
   }
