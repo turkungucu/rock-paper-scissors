@@ -4,27 +4,51 @@ export const MODE = {
 }
 
 export class GameController {
-    constructor(game, mode) {
+    constructor(game) {
         this.game = game;
-        this.mode = mode;
+        this.mode = MODE.PlayerVsComputer;
+
+        this.playerOneSection = document.querySelector('#playerOne .section-body__shapes');
+        this.playerTwoSection = document.querySelector('#playerTwo .section__body');
+        this.resolutionActions = document.querySelector('.resolution__actions');
+        this.resolutionMsg = document.querySelector('.resolution__msg');
     }
 
-    init() {
+    init(mode) {
+        this.mode = parseInt(mode);
+        this.resetBoard();
+
         if (this.mode === MODE.PlayerVsComputer) {
             this.initPlayerVsComputer();
-        } else if (this.mode === 2) {
+        } else if (this.mode === MODE.ComputerVsComputer) {
             this.initComputerVsComputer();
+        } else {
+            this.mode = MODE.PlayerVsComputer;
+            this.initPlayerVsComputer();
         }
+    }
+
+    resetBoard() {
+        this.playerOneSection.innerHTML = '';
+        this.playerTwoSection.innerHTML = '';
+        this.resolutionMsg.innerText = '';
+        this.resolutionActions.innerHTML = '';
+    }
+
+    replaceInner(parent, child) {
+        parent.innerHTML = '';
+        parent.appendChild(child);
     }
 
     initPlayerVsComputer() {
         const ctrl = this;
-        const playerOneSection = document.querySelector('#playerOne .container-body__shapes');
-        const playerTwoSection = document.querySelector('#playerTwo .container__body');
+
+        this.playerTwoSection.appendChild(this.createElementForHand());
 
         this.game.hands.forEach(hand => {
             const iEl = this.createElementForHand(hand);
-            playerOneSection.appendChild(iEl);
+            this.playerOneSection.appendChild(iEl);
+            iEl.classList.add('clickable');
 
             iEl.addEventListener('click', function () {
                 const playerOneHand = ctrl.game.getHandByShape(this.dataset.hand);
@@ -32,41 +56,65 @@ export class GameController {
                 const playerTwoHandIcon = ctrl.createElementForHand(playerTwoHand);
                 const res = ctrl.game.compare(playerOneHand, playerTwoHand);
 
-                // update player 2 hand icon
-                playerTwoSection.innerHTML = '';
-                playerTwoSection.appendChild(playerTwoHandIcon);
-
-                ctrl.handleResolution(res, this, playerTwoHandIcon);
+                ctrl.replaceInner(ctrl.playerTwoSection, playerTwoHandIcon);
+                ctrl.handleResolution(res);
+                ctrl.resolutionActions.innerText = 'Choose a hand to keep playing';
             });
         });
     }
 
     initComputerVsComputer() {
+        const ctrl = this;
+        const iEl = this.createElementForHand();
 
+        this.playerOneSection.appendChild(iEl);
+        this.playerTwoSection.appendChild(iEl.cloneNode());
+
+        let button = document.createElement('button');
+        button.innerText = 'Play';
+        this.resolutionActions.appendChild(button);
+
+        button.addEventListener('click', function () {
+            const playerOneHand = ctrl.game.playComputer();
+            const playerTwoHand = ctrl.game.playComputer();
+            const playerOneHandIcon = ctrl.createElementForHand(playerOneHand);
+            const playerTwoHandIcon = ctrl.createElementForHand(playerTwoHand);
+            const res = ctrl.game.compare(playerOneHand, playerTwoHand);
+
+            ctrl.replaceInner(ctrl.playerOneSection, playerOneHandIcon);
+            ctrl.replaceInner(ctrl.playerTwoSection, playerTwoHandIcon);
+            ctrl.handleResolution(res);
+        });
     }
 
     createElementForHand(hand) {
         let i = document.createElement('i');
-        i.className = `${hand.avatarClass} btn`;
-        i.dataset.hand = hand.shape;
+
+        if (hand) {
+            i.className = `${hand.avatarClass} icon`;
+            i.dataset.hand = hand.shape;
+        } else {
+            i.className = 'fas fa-question icon';
+        }
+
         return i;
     }
 
-    handleResolution(resolution, p1, p2) {
+    handleResolution(resolution) {
         let resolutionMsg = '';
 
         switch (resolution) {
             case 1:
-                resolutionMsg = 'Player 1 wins';
+                resolutionMsg = this.mode === MODE.PlayerVsComputer ? 'You win!' : 'Player 1 wins!';
                 break;
             case 0:
                 resolutionMsg = 'It is a tie!'
                 break;
             case -1:
-                resolutionMsg = 'Player 2 wins';
+                resolutionMsg = 'Player 2 wins!';
                 break;
         }
 
-        document.getElementById('resolution').innerText = resolutionMsg;
+        document.querySelector('.resolution__msg').innerText = resolutionMsg;
     }
 }
