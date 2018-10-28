@@ -1,3 +1,11 @@
+:root {
+    --white: #fff;
+    --azure-radiance: #0078E7;
+    --champagne: #faebd7;
+    --alto: #dcdcdc;
+    --titan-white: #f8f8ff;
+}
+
 html, 
 body {
     height: 100%;
@@ -7,7 +15,7 @@ body {
 }
 
 header {
-    background-color: antiquewhite;
+    background-color: var(--champagne);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -52,8 +60,8 @@ section {
     justify-content: space-evenly;
 }
 
-.bg-gray {
-    background-color: gainsboro;
+.bg-alto {
+    background-color: var(--alto);
 }
 
 .icon {
@@ -67,7 +75,7 @@ section {
 }
 
 .clickable:hover {
-    background-color: ghostwhite;
+    background-color: var(--titan-white);
 }
 
 .resolution {
@@ -89,9 +97,9 @@ select {
 }
 
 button {
-    background-color: #0078e7;
-    border-radius: 2px;
-    color: #fff;
+    background-color: var(--azure-radiance);
+    border-radius: 100%;
+    color: var(--white);
     cursor: pointer;
     font-size: 16px;
     padding: 10px;
