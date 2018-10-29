@@ -3,15 +3,18 @@ const MODE = {
     ComputerVsComputer: 2,
 }
 
+// This class is responsible for setting up the game world and controlling 
+// the flow.
 class GameController {
-    constructor(game) {
+    constructor(game, _document) {
         this.game = game;
         this.mode = MODE.PlayerVsComputer;
+        this._document = _document || document;
 
-        this.playerOneSection = document.querySelector('#playerOne .section-body__shapes');
-        this.playerTwoSection = document.querySelector('#playerTwo .section__body');
-        this.resolutionActions = document.querySelector('.resolution__actions');
-        this.resolutionMsg = document.querySelector('.resolution__msg');
+        this.playerOneSection = this._document.querySelector('#playerOne .section-body__hands');
+        this.playerTwoSection = this._document.querySelector('#playerTwo .section__body');
+        this.resolutionActions = this._document.querySelector('.resolution__actions');
+        this.resolutionMsg = this._document.querySelector('.resolution__msg');
     }
 
     init(mode) {
@@ -65,8 +68,7 @@ class GameController {
         this.playerOneSection.appendChild(iEl);
         this.playerTwoSection.appendChild(iEl.cloneNode());
 
-        let button = document.createElement('button');
-        button.innerHTML = '<i class="fas fa-redo-alt"></i>';
+        const button = this.createPlayButton();
         this.resolutionActions.appendChild(button);
 
         button.addEventListener('click', this.clickHandlerForComputerVsComputer.bind(this));
@@ -85,7 +87,7 @@ class GameController {
     }
 
     createAvatarElForHand(hand) {
-        let i = document.createElement('i');
+        let i = this._document.createElement('i');
 
         if (hand) {
             i.className = `${hand.avatarClass} icon`;
@@ -95,6 +97,13 @@ class GameController {
         }
 
         return i;
+    }
+
+    createPlayButton() {
+        let button = this._document.createElement('button');
+        button.innerHTML = '<i class="fas fa-redo-alt"></i>';
+
+        return button;
     }
 
     handleResolution(resolution) {

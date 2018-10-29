@@ -1,25 +1,36 @@
 :root {
     --white: #fff;
     --azure-radiance: #0078E7;
-    --champagne: #faebd7;
+    --mine-shaft: #333333;
     --alto: #dcdcdc;
-    --titan-white: #f8f8ff;
 }
 
 html, 
 body {
+    font-family: Arial, Helvetica, sans-serif;
     height: 100%;
     margin: 0px;
     padding: 0px;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 header {
-    background-color: var(--champagne);
+    background-color: var(--mine-shaft);
+    color: var(--alto);
     display: flex;
     flex-direction: row;
+    height: 6%;
     justify-content: center;
-    padding: 16px;
+}
+
+header div {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    justify-content: center;
+}
+
+header div select {
+    font-size: 16px;
 }
 
 section {
@@ -53,7 +64,7 @@ section {
     flex-direction: column;
 }
 
-.section-body__shapes {
+.section-body__hands {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -67,6 +78,7 @@ section {
 .icon {
     border: 1px solid;
     font-size: 32px;
+    margin: 8px;
     padding: 24px;
 }
 
@@ -75,7 +87,7 @@ section {
 }
 
 .clickable:hover {
-    background-color: var(--titan-white);
+    background-color: var(--white);
 }
 
 .resolution {

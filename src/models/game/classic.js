@@ -1,7 +1,10 @@
 const Game = require('./game');
 const Hand = require('../hand');
 
-// Classic game defines the rules of Rock, Paper, Scissors game
+/**
+ *  Derived game class that defines the hands and rules of a 
+ *  Rock, Paper, Scissors game
+ */
 class Classic extends Game {
     constructor() {
         const rock = new Hand('rock', 'far fa-hand-rock');
