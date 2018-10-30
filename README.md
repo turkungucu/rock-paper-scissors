@@ -23,6 +23,11 @@ $ ./node_modules/.bin/webpack
 * [Jasmine](https://jasmine.github.io/) - Testing Framework
 * [JSDOM](https://github.com/jsdom/jsdom) - Emulates window and document objects for use in tests
 
+## Browser and Device Support
+
+* Works on all modern browsers (Chrome, Firefox, Safari). Has not been tested on IE or Edge.
+* Works on all devices (Desktop, Smartphone, tablet)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
