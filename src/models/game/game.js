@@ -1,7 +1,12 @@
 /**
- * Abstract Game class
+ * Class representing a game
  */
 class Game {
+    /**
+     * Create a game
+     * @param {Hand[]]} hands - List of hands allowed in this game 
+     * @param {Object} rules - { handA: [handB] } translates to handA beats handB 
+     */
     constructor(hands, rules) {
         this.hands = hands;
         this.rules = rules;
@@ -9,7 +14,7 @@ class Game {
 
     /**
      * Returns corresponding Hand object given a hand shape
-     * @param {string} Shape of the hand
+     * @param {string} shape - Shape of the hand
      * @returns {Hand}
      */
     getHandByShape(shape) {

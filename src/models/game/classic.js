@@ -2,10 +2,13 @@ const Game = require('./game');
 const Hand = require('../hand');
 
 /**
- *  Derived game class that defines the hands and rules of a 
- *  Rock, Paper, Scissors game
+ * Derived class representing a game of Rock, Paper, Scissors
+ * @extends Game
  */
 class Classic extends Game {
+    /**
+     * Create Rock, Paper, Scissors game
+     */
     constructor() {
         const rock = new Hand('rock', 'far fa-hand-rock');
         const paper = new Hand('paper', 'far fa-hand-paper');

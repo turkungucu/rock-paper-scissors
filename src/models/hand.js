@@ -1,8 +1,12 @@
 /**
- * Represents a hand which is composed of shape and css class for visual 
- * representation.
+ * Class representing a Hand
  */
 class Hand {
+    /**
+     * Create a hand
+     * @param {string} shape 
+     * @param {string} avatarClass - css class 
+     */
     constructor(shape, avatarClass) {
         this.shape = shape;
         this.avatarClass = avatarClass;

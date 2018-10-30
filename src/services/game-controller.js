@@ -1,11 +1,20 @@
+/**
+ * Modes supported by the game
+ */
 const MODE = {
     PlayerVsComputer: 1,
     ComputerVsComputer: 2,
 }
 
-// This class is responsible for setting up the game world and controlling 
-// the flow.
+/**
+ * Class representing and controlling the game world
+ */
 class GameController {
+    /**
+     * Create a controller
+     * @param {Game} game - Any derived class of Game
+     * @param {_document} [_document=document] - Used by specs to pass their own mock document 
+     */
     constructor(game, _document) {
         this.game = game;
         this.mode = MODE.PlayerVsComputer;
@@ -17,6 +26,10 @@ class GameController {
         this.resolutionMsg = this._document.querySelector('.resolution__msg');
     }
 
+    /**
+     * Initializes game world based on mode. Defaults to `PlayerVsComputer`.
+     * @param {string|number} mode 
+     */
     init(mode) {
         this.mode = parseInt(mode);
         this.resetBoard();
@@ -31,6 +44,9 @@ class GameController {
         }
     }
 
+    /**
+     * Cleans up the board
+     */
     resetBoard() {
         this.playerOneSection.innerHTML = '';
         this.playerTwoSection.innerHTML = '';
@@ -38,6 +54,9 @@ class GameController {
         this.resolutionActions.innerHTML = '';
     }
 
+    /**
+     * Initializes game world for a `Player vs Computer` game
+     */
     initPlayerVsComputer() {
         this.playerTwoSection.appendChild(this.createAvatarElForHand());
 
@@ -51,6 +70,10 @@ class GameController {
         });
     }
 
+    /**
+     * Click event that handles human and computer play
+     * @param {event} event 
+     */
     clickHandlerForPlayerVsComputer(event) {
         const playerOneHand = this.game.getHandByShape(event.target.dataset.hand);
         const playerTwoHand = this.game.playComputer();
@@ -62,6 +85,9 @@ class GameController {
         this.resolutionActions.innerText = 'Choose a hand to keep playing';
     }
 
+    /**
+     * Initializes game world for a `Computer vs Computer` game
+     */
     initComputerVsComputer() {
         const iEl = this.createAvatarElForHand();
 
@@ -74,6 +100,9 @@ class GameController {
         button.addEventListener('click', this.clickHandlerForComputerVsComputer.bind(this));
     }
 
+    /**
+     * Click event that handles a round of `CompVsComp` game
+     */
     clickHandlerForComputerVsComputer() {
         const playerOneHand = this.game.playComputer();
         const playerTwoHand = this.game.playComputer();
@@ -86,6 +115,11 @@ class GameController {
         this.handleResolution(res);
     }
 
+    /**
+     * Returns a dom element for a given Hand
+     * @param {Hand} hand 
+     * @returns {Element} 
+     */
     createAvatarElForHand(hand) {
         let i = this._document.createElement('i');
 
@@ -99,6 +133,10 @@ class GameController {
         return i;
     }
 
+    /**
+     * Returns a button element which is used to trigger a `Comp vs Comp` game
+     * @returns {Element} button
+     */
     createPlayButton() {
         let button = this._document.createElement('button');
         button.innerHTML = '<i class="fas fa-redo-alt"></i>';
@@ -106,6 +144,10 @@ class GameController {
         return button;
     }
 
+    /**
+     * Inserts game's resolution message into its container
+     * @param {number} resolution - 1, 0, -1 
+     */
     handleResolution(resolution) {
         let resolutionMsg = '';
 
@@ -124,6 +166,11 @@ class GameController {
         this.resolutionMsg.innerText = resolutionMsg;
     }
 
+    /**
+     * Helper function that replaces inner html of an element with new a element
+     * @param {Element} parent
+     * @param {Element} child 
+     */
     replaceInner(parent, child) {
         parent.innerHTML = '';
         parent.appendChild(child);
